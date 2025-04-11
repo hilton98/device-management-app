@@ -1,0 +1,41 @@
+@for (device of devices; track device.id) {
+    <mat-card-content>
+        <div class="grid grid-cols-3 border-b py-2 ">
+            <div class="col-span-2">
+                
+                <div class="flex flex-row">
+                    <div class="basis-1/2 flex justify-center">
+                        <p>Color</p>
+                    </div >
+                    <div class="basis-1/2 flex justify-center">
+                        <p>{{device.color}}</p>
+                    </div>
+                </div>
+
+                <div class="flex flex-row">
+                    <div class="basis-1/2 flex justify-center">
+                        <p>Category Name</p>
+                    </div >
+                    <div class="basis-1/2 flex justify-center">
+                        <p>{{device.categoryName}}</p>
+                    </div>
+                </div>
+
+                <div class="flex flex-row">
+                    <div class="basis-1/2 flex justify-center">
+                        <p>Part Number</p>
+                    </div >
+                    <div class="basis-1/2 flex justify-center">
+                        <p>{{device.partNumber}}</p>
+                    </div>
+                </div>
+
+            </div>
+            <div class="flex justify-center p-2">
+                <button mat-button>
+                    Delete
+                </button>
+            </div>
+        </div>
+    </mat-card-content>
+}

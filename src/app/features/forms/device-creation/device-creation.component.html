@@ -1,0 +1,35 @@
+<mat-card appearance="outlined">
+    <mat-card-content>
+        <div class="flex justify-center p-2">
+            <p class="font-serif text-2xl">Create Device</p>
+        </div>
+    </mat-card-content>
+    <mat-card-content>
+        <div class="flex flex-col p-8">
+            <mat-form-field>
+                <mat-label>Select Category</mat-label>
+                <mat-select>
+                    @for (category of categories; track $index) {
+                        <mat-option [value]="category.id">{{ category.name }}</mat-option>
+                    }
+                </mat-select>
+            </mat-form-field>
+        
+            <mat-form-field>
+                <mat-label>Category Name</mat-label>
+                <input matInput>
+            </mat-form-field>
+            
+            <mat-form-field>
+                <mat-label>Color</mat-label>
+                <input matInput>
+            </mat-form-field>
+            
+            <mat-form-field>
+                <mat-label>Part Number</mat-label>
+                <input matInput>
+            </mat-form-field>
+            <button mat-raised-button>Criar</button>
+        </div>
+    </mat-card-content>
+</mat-card>
