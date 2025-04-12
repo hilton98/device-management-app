@@ -9,3 +9,11 @@ export interface Device {
     updatedAt: Date,
     category?: Category;
 }
+
+export interface CreateDevice {
+    id?: number,
+    categoryId?: number,
+    categoryName?: string,
+    color: string,
+    partNumber: number,
+}

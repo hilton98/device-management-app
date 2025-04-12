@@ -1,45 +1,58 @@
 <mat-card appearance="outlined">
-    <mat-card-content>
-        <div class="flex justify-center p-2">
-            <p class="font-serif text-2xl">Create Device</p>
-        </div>
-    </mat-card-content>
+
+    @if (!isCategoryDefined) {
+      <mat-form-field>
+        <mat-label>Message</mat-label>
+        <input matInput value="Define a new category or select an existing one!" #message>
+      </mat-form-field>
+    }
 
     <mat-card-content>
-        <div class="flex justify-center p-2">
-            <button mat-button (click)="handleBackRedirect()">Back</button>
-        </div>
+      <div class="flex justify-center p-2">
+        <p class="font-serif text-2xl">Create Device</p>
+      </div>
     </mat-card-content>
-
-
+  
     <mat-card-content>
-        <div class="flex flex-col p-8">
-            <mat-form-field>
-                <mat-label>Select Category</mat-label>
-                <mat-select>
-                    @for (category of categories; track $index) {
-                        <mat-option [value]="category.id">{{ category.name }}</mat-option>
-                    }
-                </mat-select>
-            </mat-form-field>
-        
-            <mat-form-field>
-                <mat-label>Category Name</mat-label>
-                <input matInput>
-            </mat-form-field>
-            
-            <mat-form-field>
-                <mat-label>Color</mat-label>
-                <input matInput>
-            </mat-form-field>
-            
-            <mat-form-field>
-                <mat-label>Part Number</mat-label>
-                <input matInput>
-            </mat-form-field>
-            <div class="flex justify-center p-2">
-                <button mat-button>Create</button>
-            </div>
-        </div>
+      <div class="flex justify-center p-2">
+        <button mat-button (click)="handleBackRedirect()">Back</button>
+      </div>
     </mat-card-content>
-</mat-card>
+  
+    <mat-card-content>
+      <form [formGroup]="form" (ngSubmit)="handleSubmit()">
+        <div class="flex flex-col p-8 gap-4">
+          <mat-form-field>
+            <mat-label>Select Category</mat-label>
+            <mat-select formControlName="categoryId">
+              @for (category of categories; track $index) {
+                <mat-option [value]="category.id">
+                  {{ category.name }}
+                </mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field>
+            <mat-label>New category</mat-label>
+            <input matInput formControlName="categoryName">
+          </mat-form-field>
+  
+          <mat-form-field>
+            <mat-label>Color</mat-label>
+            <input matInput formControlName="color" required>
+          </mat-form-field>
+  
+          <mat-form-field>
+            <mat-label>Part Number</mat-label>
+            <input matInput formControlName="partNumber" required>
+          </mat-form-field>
+  
+          <div class="flex justify-center p-2">
+            <button mat-button color="primary" type="submit" [disabled]="form.invalid">Create</button>
+          </div>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+  

@@ -7,3 +7,8 @@ export interface Category {
     updatedAt: Date,
     devices?: Device[]  
 }
+
+export interface CreateCategory {
+    id?: number,
+    name: string,  
+}

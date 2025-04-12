@@ -13,13 +13,20 @@
 
     <mat-card-content>
         <div class="flex flex-col p-8">
+
+            <form [formGroup]="form" (ngSubmit)="handleSubmit()">
+                <div class="flex flex-col p-8 gap-4">
+                    <mat-form-field>
+                        <mat-label>Category Name</mat-label>
+                        <input matInput formControlName="name" required>
+                    </mat-form-field>
+                    
+                    <div class="flex justify-center p-2">
+                        <button mat-button color="primary" type="submit" [disabled]="form.invalid">Create</button>
+                    </div>
+                </div>
+            </form>
         
-            <mat-form-field>
-                <mat-label>Category Name</mat-label>
-                <input matInput>
-            </mat-form-field>
-            
-            <button mat-raised-button>Criar</button>
         </div>
     </mat-card-content>
 </mat-card>
