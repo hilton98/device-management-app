@@ -6,8 +6,7 @@ import { DeviceCardContentComponent } from './components/device-card-content/dev
 import { Location } from '@angular/common';
 import { DeviceCard } from '../interfaces/device-card.interface';
 import { MatButtonModule } from '@angular/material/button';
-import { Router } from '@angular/router';
-import { NavigationService } from '../../shared/services/navigation.service';
+import { NavigationService } from '../services/navigation.service';
 
 @Component({
   selector: 'app-dashboard',

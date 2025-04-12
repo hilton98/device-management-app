@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
-import { NavigationService } from '../../shared/services/navigation.service';
+import { NavigationService } from '../services/navigation.service';
 
 @Component({
   selector: 'app-main-menu',

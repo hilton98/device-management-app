@@ -6,7 +6,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { CategoryCard } from '../../interfaces/category-card.interface';
 import { Location } from '@angular/common';
-import { NavigationService } from '../../../shared/services/navigation.service';
+import { NavigationService } from '../../services/navigation.service';
 
 @Component({
   selector: 'app-device-creation',

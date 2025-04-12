@@ -1,4 +1,4 @@
-@for (device of devices; track device.id) {
+@for (device of deviceList; track device.id) {
     <mat-card-content>
         <div class="grid grid-cols-3 border-b py-2 ">
             <div class="col-span-2">
@@ -32,7 +32,7 @@
 
             </div>
             <div class="flex justify-center p-2">
-                <button mat-button>
+                <button mat-button (click)="handleDeleteDevice(device.id)">
                     Delete
                 </button>
             </div>
