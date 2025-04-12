@@ -4,6 +4,14 @@
             <p class="font-serif text-2xl">Create Device</p>
         </div>
     </mat-card-content>
+
+    <mat-card-content>
+        <div class="flex justify-center p-2">
+            <button mat-button (click)="handleBackRedirect()">Back</button>
+        </div>
+    </mat-card-content>
+
+
     <mat-card-content>
         <div class="flex flex-col p-8">
             <mat-form-field>
@@ -29,7 +37,9 @@
                 <mat-label>Part Number</mat-label>
                 <input matInput>
             </mat-form-field>
-            <button mat-raised-button>Criar</button>
+            <div class="flex justify-center p-2">
+                <button mat-button>Create</button>
+            </div>
         </div>
     </mat-card-content>
 </mat-card>
