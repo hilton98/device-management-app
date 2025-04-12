@@ -22,6 +22,8 @@ import { CreateCategoryService } from '../../services/category/create-category.s
 })
 export class CategoryCreationComponent {
   form: FormGroup;
+  isShowMessage = false;
+  message = '';
   
   constructor(
     private navigationService: NavigationService,
@@ -48,11 +50,22 @@ export class CategoryCreationComponent {
           this.navigationService.goToCategories();
         },
         error: (error) => {
-          console.error('Error create category', error);
+          if (error.status === 409) {
+            this.showMessage('The new category already exists!');
+          } else {
+            this.showMessage('Error creating category. Please try again.');
+          }
         }
       })
     }
   }
+
+  showMessage(message: string) {
+    this.message = message;
+    this.isShowMessage = true;
+    setTimeout(() => this.isShowMessage = false, 3000);
+  }
+
   handleBackRedirect() {
     this.navigationService.goToCategories();
   }

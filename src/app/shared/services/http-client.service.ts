@@ -1,4 +1,4 @@
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpResponse } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { environment } from "../../../environments/environment";
 import { Observable } from "rxjs";
@@ -25,8 +25,8 @@ export class HttpClientService {
         return this.http.delete<T>(url)
     }
 
-    post<T>(resource: string, data: T): Observable<T> {
+    post<T>(resource: string, data: T): Observable<HttpResponse<T>> {
         const url = `${this.baseUrl}/${resource}`;
-        return this.http.post<T>(url, data);
+        return this.http.post<T>(url, data, { observe: 'response' });
     }
 }

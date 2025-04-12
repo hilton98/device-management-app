@@ -26,6 +26,8 @@ export class DeviceCreationComponent implements OnInit {
   form: FormGroup;
   categories: CategoryCard[] = [];
   isCategoryDefined = true;
+  isShowMessage = false;
+  message = '';
 
   constructor(
     private location: Location,
@@ -43,11 +45,12 @@ export class DeviceCreationComponent implements OnInit {
         '', 
         Validators.compose([
           Validators.required,
-          Validators.pattern(/^[A-Za-zÀ-ÿ\s]+$/)
+          Validators.pattern(/^[A-Za-zÀ-ÿ\s]+$/),
+          Validators.maxLength(16)
         ])
       ],
       partNumber: [
-        '', 
+        '',
         Validators.compose([
           Validators.required,
           Validators.pattern(/^[0-9]+$/)
@@ -61,12 +64,13 @@ export class DeviceCreationComponent implements OnInit {
     if (this.form.valid) {
       const devicePayload = this.form.value;
       
-      this.isCategoryDefined = (
+      const isCategoryDefined = (
         (devicePayload.categoryId && !devicePayload.categoryName) || 
         (!devicePayload.categoryId && devicePayload.categoryName)
       )
 
-      if (!this.isCategoryDefined) {
+      if (!isCategoryDefined) {
+        this.showMessage('Define a new category or select an existing one!')
         return;
       }
 
@@ -75,10 +79,20 @@ export class DeviceCreationComponent implements OnInit {
           this.navigationService.goToDevices()
         },
         error: (error) => {
-          console.error('Error create device', error);
+          if (error.status === 409) {
+            this.showMessage('The new category already exists!');
+          } else {
+            this.showMessage('Error creating device. Please try again.')
+          }
         }
       })
     }
+  }
+
+  showMessage(message: string) {
+    this.message = message;
+    this.isShowMessage = true;
+    setTimeout(() => this.isShowMessage = false, 3000);
   }
 
   ngOnInit(): void {

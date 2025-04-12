@@ -1,9 +1,9 @@
 <mat-card appearance="outlined">
 
-    @if (!isCategoryDefined) {
+    @if (isShowMessage) {
       <mat-form-field>
         <mat-label>Message</mat-label>
-        <input matInput value="Define a new category or select an existing one!" #message>
+        <input matInput [value]="message" readonly>
       </mat-form-field>
     }
 
@@ -45,7 +45,7 @@
   
           <mat-form-field>
             <mat-label>Part Number</mat-label>
-            <input matInput formControlName="partNumber" required>
+            <input matInput formControlName="partNumber" type="number" required>
           </mat-form-field>
   
           <div class="flex justify-center p-2">
