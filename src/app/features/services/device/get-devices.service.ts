@@ -14,6 +14,6 @@ export class GetDevicesService {
     ) {}
 
     execute(): Observable<Device[]> {
-        return this.httpClientService.get<Device[]>('devices?relations=category')
+        return this.httpClientService.get<Device[]>(`devices?relations=category`)
     }
 }

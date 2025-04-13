@@ -1,21 +1,43 @@
-@for (category of categoryList; track category.id) {
-    <mat-card-content>
-        <div class="grid grid-cols-3 border-b py-2 ">
-            <div class="col-span-2">
-                <div class="flex flex-row">
-                    <div class="basis-1/2 flex justify-center">
-                        <p>Name</p>
-                    </div >
-                    <div class="basis-1/2 flex justify-center">
-                        <p>{{category.name}}</p>
+<div class="p-8">
+    <div class="flex justify-start">
+        <form [formGroup]="form" (ngSubmit)="handleFindCategoryById()">
+            <div class="p-2 gap-4 flex">
+                <div>
+                    <mat-form-field>
+                        <mat-label>Category id</mat-label>
+                        <input matInput formControlName="id" type="number" required="">
+                    </mat-form-field>
+                </div>
+                <div>
+                    <button mat-fab type="submit" [disabled]="form.invalid" class="p-2">
+                        Search
+                    </button>
+                </div>
+        
+            </div>
+        </form>
+    </div>
+
+    @for (category of categoryList; track category.id) {
+        <mat-card-content>
+            <div class="grid grid-cols-3 border-b py-2 ">
+                <div class="col-span-2">
+                    <div class="flex flex-row">
+                        <div class="basis-1/2 flex justify-center">
+                            <p>Name</p>
+                        </div >
+                        <div class="basis-1/2 flex justify-center">
+                            <p>{{category.name}}</p>
+                        </div>
                     </div>
                 </div>
+                <div class="flex justify-center p-2">
+                    <button mat-button (click)="handleDeleteDevice(category.id)">
+                        Delete
+                    </button>
+                </div>
             </div>
-            <div class="flex justify-center p-2">
-                <button mat-button (click)="handleDeleteDevice(category.id)">
-                    Delete
-                </button>
-            </div>
-        </div>
-    </mat-card-content>
-}
+        </mat-card-content>
+    }
+
+</div>
