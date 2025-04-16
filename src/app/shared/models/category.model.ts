@@ -8,6 +8,11 @@ export interface Category {
     devices?: Device[]  
 }
 
+export interface CategoryList {
+    categories: Category[],
+    total: number
+}
+
 export interface CreateCategory {
     id?: number,
     name: string,  

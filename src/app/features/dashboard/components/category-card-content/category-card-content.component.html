@@ -1,5 +1,5 @@
-<div class="p-8">
-    <div class="flex justify-start">
+<div class="pr-12 pb-12 pl-12">
+    <div class="flex justify-center">
         <form [formGroup]="form" (ngSubmit)="handleFindCategoryById()">
             <div class="p-2 gap-4 flex">
                 <div>
@@ -18,26 +18,49 @@
         </form>
     </div>
 
+    <div class="flex justify-center">
+        <mat-paginator [length]="items"
+            [pageIndex]="page"
+            [pageSize]="pageSize"
+            [pageSizeOptions]="pageSizeOptions"
+            aria-label="Select page"
+            (page)="onPageFired($event)">
+        </mat-paginator>
+    </div>
+
     @for (category of categoryList; track category.id) {
-        <mat-card-content>
-            <div class="grid grid-cols-3 border-b py-2 ">
-                <div class="col-span-2">
-                    <div class="flex flex-row">
-                        <div class="basis-1/2 flex justify-center">
-                            <p>Name</p>
-                        </div >
-                        <div class="basis-1/2 flex justify-center">
-                            <p>{{category.name}}</p>
+        <div class="p-2">
+            <mat-card appearance="outlined">
+                <mat-card-content>
+                    <div class="grid grid-cols-3">
+                        <div class="col-span-2">
+                            <div class="flex flex-row">
+                                <div class="basis-1/2 flex justify-center">
+                                    <p>Id</p>
+                                </div >
+                                <div class="basis-1/2 flex justify-center">
+                                    <p>{{category.id}}</p>
+                                </div>
+                            </div>
+                            <div class="flex flex-row">
+                                <div class="basis-1/2 flex justify-center">
+                                    <p>Name</p>
+                                </div >
+                                <div class="basis-1/2 flex justify-center">
+                                    <p>{{category.name}}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex justify-center p-2">
+                            <button mat-button (click)="handleDeleteDevice(category.id)">
+                                Delete
+                            </button>
                         </div>
                     </div>
-                </div>
-                <div class="flex justify-center p-2">
-                    <button mat-button (click)="handleDeleteDevice(category.id)">
-                        Delete
-                    </button>
-                </div>
-            </div>
-        </mat-card-content>
+                </mat-card-content>
+
+            </mat-card>
+        </div>
     }
 
 </div>

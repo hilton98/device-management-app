@@ -1,5 +1,10 @@
 import { Category } from "./category.model";
 
+export interface DeviceList {
+    devices: Device[],
+    total: number
+}
+
 export interface Device {
     id: number,
     categoryId: number,

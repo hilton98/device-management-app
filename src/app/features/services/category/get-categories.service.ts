@@ -1,7 +1,8 @@
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { HttpClientService } from "../../../shared/services/http-client.service";
-import { Category } from "../../../shared/models/category.model";
+import { CategoryList } from "../../../shared/models/category.model";
+import { CategoryQueryParams } from "../../interfaces/category-query-params.interface";
 
 @Injectable({
     providedIn: 'root'
@@ -13,7 +14,17 @@ export class GetCategoriesService {
         private httpClientService: HttpClientService
     ) {}
 
-    execute(): Observable<Category[]> {
-        return this.httpClientService.get<Category[]>('categories')
+    execute(queryParams?: CategoryQueryParams): Observable<CategoryList> {
+        const params = this.buildCategoryParams(queryParams)
+        return this.httpClientService.get<CategoryList>(`categories${params}`)
+    }
+
+    private buildCategoryParams(filters?: CategoryQueryParams) {
+        let params = '?relations=devices'
+
+        if (filters?.page && filters?.itemsPerPage) {
+            params = `${params}&page=${filters?.page}&itemsPerPage=${filters.itemsPerPage}`;
+        }    
+        return params;
     }
 }

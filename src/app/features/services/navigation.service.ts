@@ -1,6 +1,5 @@
 import { Injectable } from "@angular/core";
 import { Router } from "@angular/router";
-import { DeviceCardMapper } from "../mappers/device-card.mapper";
 import { GetCategoriesService } from "./category/get-categories.service";
 import { GetDevicesService } from "./device/get-devices.service";
 
@@ -13,16 +12,15 @@ export class NavigationService {
         private router: Router,
         private getCategoriesService: GetCategoriesService,
         private getDevicesService: GetDevicesService,
-        private deviceCardMapper: DeviceCardMapper
     ) {}
 
     goToDevices () {
-      this.getDevicesService.execute().subscribe({
+      this.getDevicesService.execute({ page: 1, itemsPerPage: 10 }).subscribe({
         next: (data) => {
           this.router.navigate(['/devices'], {
             state: {
               dashboardName: 'Devices',
-              devices: this.deviceCardMapper.mapMany(data),
+              devices: data,
               isDevices: true
             }
           });
@@ -58,7 +56,9 @@ export class NavigationService {
       this.getCategoriesService.execute().subscribe({
         next: (data) => {
           this.router.navigate(['/devices/new'], {
-            state: { categories: data }
+            state: { 
+              categories: data 
+            }
           });
         },
         error: (error) => {

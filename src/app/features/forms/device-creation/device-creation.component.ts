@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -9,6 +9,7 @@ import { Location } from '@angular/common';
 import { NavigationService } from '../../services/navigation.service';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CreateDeviceService } from '../../services/device/create-device.service';
+import { CategoryList } from '../../../shared/models/category.model';
 
 @Component({
   selector: 'app-device-creation',
@@ -96,8 +97,8 @@ export class DeviceCreationComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    const navigation =  this.location.getState() as { categories?: CategoryCard[] };
-    this.categories = navigation.categories || []; 
+    const navigation =  this.location.getState() as { categories?: CategoryList };
+    this.categories = navigation.categories?.categories || []; 
   }
 
   handleBackRedirect() {

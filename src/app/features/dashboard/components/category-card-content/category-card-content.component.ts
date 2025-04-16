@@ -10,6 +10,9 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { GetCategoryByIdService } from '../../../services/category/get-category-by-id.service';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
+
+import { CategoryList } from '../../../../shared/models/category.model';
 
 @Component({
   selector: 'app-category-card-content',
@@ -20,21 +23,20 @@ import { MatInputModule } from '@angular/material/input';
     MatButtonModule,
     MatFormFieldModule,
     ReactiveFormsModule,
-    MatInputModule
+    MatInputModule,
+    MatPaginatorModule
   ],
   templateUrl: './category-card-content.component.html',
 })
 export class CategoryCardContentComponent implements OnChanges {
   
-  @Input() categories: CategoryCard[] = [];
+  @Input() categories!: CategoryList;
   categoryList: CategoryCard[] = [];
   form: FormGroup;
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['categories']) {
-      this.categoryList = [...this.categories];
-    }
-  }
+  pageSizeOptions= [5, 10, 50, 100]
+  pageSize = 10;
+  items = 0;
+  page = 0;
 
   constructor(
     private deleteCategoryService: DeleteCategoryService,
@@ -50,6 +52,14 @@ export class CategoryCardContentComponent implements OnChanges {
         ],
       }, {}
     );
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['categories']) {
+      const { categories, total } = this.categories;
+      this.categoryList = categories;
+      this.items = total;
+    }
   }
 
   handleFindCategoryById() {
@@ -80,14 +90,23 @@ export class CategoryCardContentComponent implements OnChanges {
   }
 
   loadDevices() {
-    this.getCategoriesService.execute().subscribe({
+    const currentPage = this.page + 1;
+    this.getCategoriesService.execute( { page: currentPage, itemsPerPage: this.pageSize } ).subscribe({
       next: (data) => {
-        this.categoryList = data;
+        const {categories, total} = data;
+        this.categoryList = categories;
+        this.items = total;
       },
       error: (error) => {
         console.error('Error to load categories', error);
       }
     });
+  }
+
+  async onPageFired(event: PageEvent) {
+    this.page = event.pageIndex;
+    this.pageSize = event.pageSize;
+    this.loadDevices();
   }
 
 }

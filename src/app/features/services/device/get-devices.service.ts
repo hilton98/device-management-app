@@ -1,7 +1,8 @@
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { HttpClientService } from "../../../shared/services/http-client.service";
-import { Device } from "../../../shared/models/device.model";
+import { DeviceList } from "../../../shared/models/device.model";
+import { DeviceQueryParams } from "../../interfaces/device-query-params.interface";
 
 @Injectable({
     providedIn: 'root'
@@ -13,7 +14,19 @@ export class GetDevicesService {
         private httpClientService: HttpClientService
     ) {}
 
-    execute(): Observable<Device[]> {
-        return this.httpClientService.get<Device[]>(`devices?relations=category`)
+    execute(queryParams?: DeviceQueryParams): Observable<DeviceList> {
+        const params = this.buildDeviceParams(queryParams)
+        return this.httpClientService.get<DeviceList>(`devices${params}`)
     }
+
+    private buildDeviceParams(filters?: DeviceQueryParams) {
+        let params = '?relations=category'
+
+        if (filters?.page && filters?.itemsPerPage) {
+            params = `${params}&page=${filters?.page}&itemsPerPage=${filters.itemsPerPage}`;
+        }    
+        return params;
+    }
+      
+      
 }

@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
-import { CategoryCard } from '../interfaces/category-card.interface';
 import { CategoryCardContentComponent } from './components/category-card-content/category-card-content.component';
 import { DeviceCardContentComponent } from './components/device-card-content/device-card-content.component';
 import { Location } from '@angular/common';
-import { DeviceCard } from '../interfaces/device-card.interface';
 import { MatButtonModule } from '@angular/material/button';
 import { NavigationService } from '../services/navigation.service';
+import { DeviceList } from '../../shared/models/device.model';
+import { CategoryList } from '../../shared/models/category.model';
 
 @Component({
   selector: 'app-dashboard',
@@ -20,8 +20,8 @@ import { NavigationService } from '../services/navigation.service';
 })
 export class DashboardComponent implements OnInit {
   dashboardName: string = '';
-  categories: CategoryCard[] = [];
-  devices: DeviceCard[] = [];
+  categories!: CategoryList;
+  devices!: DeviceList;
   isDevices: boolean = false;
 
   constructor(
@@ -35,11 +35,11 @@ export class DashboardComponent implements OnInit {
     this.dashboardName = dashState.dashboardName;
   
     if (!this.isDevices) {
-      const navigation =  this.location.getState() as { categories?: CategoryCard[] };
-      this.categories = navigation.categories || [];
+      const navigation =  this.location.getState() as { categories?: CategoryList };
+      this.categories = navigation.categories as CategoryList;
     } else {
-      const navigation =  this.location.getState() as { devices?: DeviceCard[] };
-      this.devices = navigation.devices || [];
+      const navigation =  this.location.getState() as { devices?: DeviceList };
+      this.devices = navigation.devices as DeviceList;
     } 
   }
 

@@ -11,6 +11,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { GetDeviceByIdService } from '../../../services/device/get-device-by-id.service';
+import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
+import { DeviceList } from '../../../../shared/models/device.model';
 
 @Component({
   selector: 'app-device-card-content',
@@ -21,20 +23,19 @@ import { GetDeviceByIdService } from '../../../services/device/get-device-by-id.
     MatButtonModule,
     MatFormFieldModule,
     MatInputModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatPaginatorModule
   ],
   templateUrl: './device-card-content.component.html',
 })
 export class DeviceCardContentComponent implements OnChanges {
-  @Input() devices: DeviceCard[] = [];
+  @Input() devices!: DeviceList;
   deviceList: DeviceCard[] = [];
   form: FormGroup;
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['devices']) {
-      this.deviceList = [...this.devices];
-    }
-  }
+  pageSizeOptions= [5, 10, 50, 100]
+  pageSize = 10;
+  items = 0;
+  page = 0;
 
   constructor(
     private deleteDeviceService: DeleteDeviceService,
@@ -51,6 +52,14 @@ export class DeviceCardContentComponent implements OnChanges {
         ],
       }, {}
     );
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['devices']) {
+      const { devices, total } = this.devices;
+      this.deviceList = this.deviceCardMapper.mapMany(devices);
+      this.items = total;
+    }
   }
 
   handleFindDeviceById() {
@@ -81,13 +90,23 @@ export class DeviceCardContentComponent implements OnChanges {
   }
 
   loadDevices() {
-    this.getDevicesService.execute().subscribe({
+    const currentPage = this.page + 1;
+    this.getDevicesService.execute( { page: currentPage, itemsPerPage: this.pageSize } ).subscribe({
       next: (data) => {
-        this.deviceList = this.deviceCardMapper.mapMany(data)
+        const {devices, total} = data;
+        this.deviceList = this.deviceCardMapper.mapMany(devices)
+        this.items = total
       },
       error: (error) => {
         console.error('Error to load devices', error);
       }
     });
   }
+
+  async onPageFired(event: PageEvent) {
+    this.page = event.pageIndex;
+    this.pageSize = event.pageSize;
+    this.loadDevices();
+  }
+
 }
